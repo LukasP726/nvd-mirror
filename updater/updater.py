@@ -14,7 +14,7 @@ import requests
 BASE_URL = "https://nvd.nist.gov/feeds/json/cve/2.0"
 DATA_DIR = Path(os.getenv("DATA_DIR", "/data"))
 UPDATE_INTERVAL = int(os.getenv("UPDATE_INTERVAL", "21600"))
-REQUEST_TIMEOUT = (10, 120)
+REQUEST_TIMEOUT = (10, 300)
 
 logging.basicConfig(
     level=logging.INFO,
@@ -25,14 +25,14 @@ LOG = logging.getLogger("nvd-updater")
 
 SESSION = requests.Session()
 SESSION.headers.update({
-    "User-Agent": "nvd-local-mirror/0.1",
+    "User-Agent": "nvd-mirror/0.1",
 })
 
 META_PATTERN = re.compile(
-    r"^lastModifiedDate:(?P<modified>.+)\n"
-    r"size:(?P<size>\d+)\n"
-    r"zipSize:(?P<zip_size>\d+)\n"
-    r"gzSize:(?P<gz_size>\d+)\n"
+    r"^lastModifiedDate:(?P<modified>.+)\r?\n"
+    r"size:(?P<size>\d+)\r?\n"
+    r"zipSize:(?P<zip_size>\d+)\r?\n"
+    r"gzSize:(?P<gz_size>\d+)\r?\n"
     r"sha256:(?P<sha256>[0-9a-fA-F]{64})\s*$"
 )
 
@@ -45,6 +45,10 @@ def get_metadata(name: str) -> dict:
     response.raise_for_status()
 
     match = META_PATTERN.fullmatch(response.text.strip())
+
+    #body = response.text.strip()
+    #match = META_PATTERN.fullmatch(body)
+    
 
     if not match:
         raise ValueError(f"Neplatná metadata feedu {name}")
@@ -186,12 +190,25 @@ def get_local_metadata(path: Path) -> dict:
 
 def main() -> None:
     DATA_DIR.mkdir(parents=True, exist_ok=True)
+    selected_feed = os.getenv("NVD_FEED", "all").strip().lower()
 
     current_year = time.gmtime().tm_year
     feeds = [
         *(str(year) for year in range(2002, current_year + 1)),
         "modified",
     ]
+
+    if selected_feed == "all": 
+        feeds = all_feeds 
+    elif selected_feed == "years": 
+        feeds = [feed for feed in all_feeds if feed.isdigit()] 
+    elif selected_feed == "modified": 
+        feeds = ["modified"] 
+    elif selected_feed.isdigit() and selected_feed in all_feeds: 
+        feeds = [selected_feed] 
+    else: 
+        raise ValueError(f"Neplatný výběr feedu: {selected_feed!r}") 
+    LOG.info("Vybrané feedy: %s", ", ".join(feeds))
 
     while True:
         LOG.info("Začíná kontrola NVD feedů")
