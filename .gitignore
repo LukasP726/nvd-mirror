@@ -1,0 +1,54 @@
+# Python
+
+**pycache**/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Environment variables and local configuration
+
+.env
+.env.*
+!.env.example
+
+# Downloaded NVD data and local databases
+
+data/
+mirror/data/
+*.sqlite
+*.sqlite3
+*.db
+
+# Temporary files and partially downloaded feeds
+
+*.tmp
+*.part
+
+# Logs
+
+*.log
+logs/
+
+# Operating systems and editors
+
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Build and test artifacts
+
+build/
+dist/
+coverage/
+htmlcov/
+.coverage
+
+# Local test output
+
+test-results/
+audit_results/
