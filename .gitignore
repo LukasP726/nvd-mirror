@@ -9,21 +9,15 @@
 .venv/
 venv/
 
-# Environment variables and local configuration
+# Local data and databases
 
-.env
-.env.*
-!.env.example
-
-# Downloaded NVD data and local databases
-
-data/
-mirror/data/
+/data/
+/mirror/data/
 *.sqlite
 *.sqlite3
 *.db
 
-# Temporary files and partially downloaded feeds
+# Temporary downloads
 
 *.tmp
 *.part
@@ -31,14 +25,20 @@ mirror/data/
 # Logs
 
 *.log
-logs/
+/logs/
 
-# Operating systems and editors
+# Environment variables
 
-.DS_Store
-Thumbs.db
+.env
+.env.*
+!.env.example
+
+# IDE and operating system
+
 .idea/
 .vscode/
+.DS_Store
+Thumbs.db
 
 # Build and test artifacts
 
@@ -47,8 +47,5 @@ dist/
 coverage/
 htmlcov/
 .coverage
-
-# Local test output
-
 test-results/
 audit_results/
