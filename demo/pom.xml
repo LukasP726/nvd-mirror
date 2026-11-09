@@ -32,7 +32,7 @@
 
                 <configuration>
                     <!-- NVD data načítáme z našeho lokálního mirroru -->
-                    <nvdDatafeedUrl>http://localhost:8081/nvdcve-2.0-{0}.json.gz</nvdDatafeedUrl>
+                    <nvdDatafeedUrl>http://localhost:8080/nvdcve-2.0-{0}.json.gz</nvdDatafeedUrl>
 
     <!-- Oddělená databáze pro Kubernetes test -->
     <dataDirectory>${project.build.directory}/dependency-check-data-k8s</dataDirectory>
