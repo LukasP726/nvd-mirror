@@ -248,22 +248,22 @@ Service používá typ `ClusterIP`, takže je dostupná uvnitř clusteru.
 Pro zpřístupnění služby mimo cluster použij port forwarding:
 
 ```powershell
-minikube kubectl -- port-forward -n nvd-mirror service/nvd-mirror 8081:8080
+minikube kubectl -- port-forward -n nvd-mirror service/nvd-mirror 8080:8080
 ```
 
 Mirror je následně dostupný na:
 
 ```text
-http://localhost:8081
+http://localhost:8080
 ```
 
 Ověření:
 
 ```powershell
-curl.exe -I http://localhost:8081/nvdcve-2.0-modified.json.gz
+curl.exe -I http://localhost:8080/nvdcve-2.0-modified.json.gz
 ```
 
-Lokální port `8081` je použit záměrně, aby nekolidoval s Docker Compose variantou, která používá port `8080`.
+
 
 ## 6. Konfigurace updateru
 
@@ -296,23 +296,6 @@ Projekt obsahuje demonstrační Maven aplikaci v adresáři `demo/`.
 
 Používá OWASP Dependency-Check Maven Plugin ve verzi `13.0.0` a záměrně obsahuje starší verzi závislosti `commons-text:1.9`, aby bylo možné ověřit detekci známých zranitelností.
 
-### 7.1 Konfigurace
-
-V souboru `demo/pom.xml` je nastaven lokální mirror:
-
-```xml
-<nvdDatafeedUrl>
-    http://localhost:8080/nvdcve-2.0-{0}.json.gz
-</nvdDatafeedUrl>
-```
-
-Pro Kubernetes test se používá:
-
-```xml
-<nvdDatafeedUrl>
-    http://localhost:8081/nvdcve-2.0-{0}.json.gz
-</nvdDatafeedUrl>
-```
 
 Při testování Kubernetes varianty je použit samostatný `dataDirectory`, aby se oddělila lokální databáze Dependency-Check od databáze použité při testování Docker Compose.
 
@@ -371,7 +354,7 @@ V rámci projektu byly ověřeny následující části:
 | Stahování NVD feedů | Ano | Ano |
 | Persistentní ukládání dat | Docker volume | PVC |
 | HTTP poskytování feedů | Nginx | Nginx |
-| Přístup ke feedům | Port 8080 | Port forwarding 8081 |
+| Přístup ke feedům | Port 8080 | Port forwarding 8080 |
 | Maven `update-only` | Ověřeno | Ověřeno |
 | Maven `check` | Ověřeno | Ověřeno |
 
