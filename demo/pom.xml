@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>cz.zcu.nvdmirror</groupId>
+    <artifactId>dependency-check-demo</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.release>23</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <!-- Záměrně zranitelná závislost pro demonstraci -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+            <version>1.9</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>13.0.0</version>
+
+                <configuration>
+                    <!-- NVD data načítáme z našeho lokálního mirroru -->
+                    <nvdDatafeedUrl>http://localhost:8081/nvdcve-2.0-{0}.json.gz</nvdDatafeedUrl>
+
+    <!-- Oddělená databáze pro Kubernetes test -->
+    <dataDirectory>${project.build.directory}/dependency-check-data-k8s</dataDirectory>
+
+                    <!-- Pro tento test nepotřebujeme externí zdroje -->
+                    <knownExploitedEnabled>false</knownExploitedEnabled>
+                    <hostedSuppressionsEnabled>false</hostedSuppressionsEnabled>
+                    <ossIndexAnalyzerEnabled>false</ossIndexAnalyzerEnabled>
+
+                    <!-- Nález zranitelnosti sám o sobě nemá ukončit build -->
+                    <failBuildOnCVSS>11</failBuildOnCVSS>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+
