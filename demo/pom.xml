@@ -31,11 +31,15 @@
                 <version>13.0.0</version>
 
                 <configuration>
-                    <!-- NVD data načítáme z našeho lokálního mirroru -->
-                    <nvdDatafeedUrl>http://localhost:8080/nvdcve-2.0-{0}.json.gz</nvdDatafeedUrl>
+                    <!-- NVD data načítáme z lokálního mirroru -->
+                    <nvdDatafeedUrl>
+                        http://localhost:8080/nvdcve-2.0-{0}.json.gz
+                    </nvdDatafeedUrl>
 
-    <!-- Oddělená databáze pro Kubernetes test -->
-    <dataDirectory>${project.build.directory}/dependency-check-data-k8s</dataDirectory>
+                    <!-- Databáze Dependency-Check -->
+                    <dataDirectory>
+                        ${project.build.directory}/dependency-check-data
+                    </dataDirectory>
 
                     <!-- Pro tento test nepotřebujeme externí zdroje -->
                     <knownExploitedEnabled>false</knownExploitedEnabled>
