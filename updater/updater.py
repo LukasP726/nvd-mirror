@@ -130,6 +130,7 @@ def update_feed(name: str) -> bool:
             )
 
         # Zveřejnění nového feedu atomickým přejmenováním.
+        os.chmod(temporary_path, 0o644)
         os.replace(temporary_path, target)
 
         # Metadata ukládáme až po úspěšném ověření feedu.
@@ -193,7 +194,7 @@ def main() -> None:
     selected_feed = os.getenv("NVD_FEED", "all").strip().lower()
 
     current_year = time.gmtime().tm_year
-    feeds = [
+    all_feeds = [
         *(str(year) for year in range(2002, current_year + 1)),
         "modified",
     ]
