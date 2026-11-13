@@ -49,3 +49,14 @@ htmlcov/
 .coverage
 test-results/
 audit_results/
+
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl.backup
+
+# Credentials
+terraform.tfvars
+*.auto.tfvars
