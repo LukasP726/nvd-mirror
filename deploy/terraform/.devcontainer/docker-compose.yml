@@ -1,7 +1,12 @@
 version: "3"
 services:
   iac-dev-container:
-    image: ghcr.io/maxotta/iac-development-container:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: iac-development-container:local
+    tty:  true
+    stdin_open: true
     volumes:
       - "iac-dev-container-data:/var/iac-dev-container-data"
       - "../..:/workspace"
