@@ -1,0 +1,12 @@
+one_username      = "CHANGE_ME"
+one_password      = "CHANGE_ME"
+one_endpoint      = "https://nuada.zcu.cz/RPC2"
+vm_ssh_pubkey     = "CHANGE_ME"
+
+vm_startup_script = "echo 'startup' > /tmp/startup.txt"
+
+vm_image_name = "Ubuntu Minimal 24.04"
+vm_image_url = "https://marketplace.opennebula.io/appliance/44077b30-f431-013c-b66a-7875a4a4f528/download/0"
+
+# vm_count = 1
+# vm_name_prefix = "demo3"
