@@ -1,0 +1,8 @@
+---
+- name: Configure NVD Mirror infrastructure
+  hosts: k3s_nodes
+  become: true
+  gather_facts: true
+
+  roles:
+    - common

@@ -1,0 +1,16 @@
+---
+- name: Verify connectivity to NVD Mirror infrastructure
+  hosts: k3s_nodes
+  gather_facts: true
+
+  tasks:
+    - name: Verify remote host
+      ansible.builtin.ping:
+
+    - name: Display operating system
+      ansible.builtin.debug:
+        msg: "{{ ansible_distribution }} {{ ansible_distribution_version }}"
+
+    - name: Display available memory
+      ansible.builtin.debug:
+        msg: "{{ ansible_memtotal_mb }} MB"
